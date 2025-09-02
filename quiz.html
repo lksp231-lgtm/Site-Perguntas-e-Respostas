@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de HTML</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .quiz-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .question p {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .answers button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: none;
+      border-radius: 5px;
+      background: #3498db;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: left;
+    }
+
+    .answers button:hover {
+      background: #2980b9;
+    }
+
+    .answers button.correct {
+      background: #27ae60 !important;
+    }
+
+    .answers button.wrong {
+      background: #e74c3c !important;
+    }
+
+    .message {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .correct-text { color: #27ae60; }
+    .wrong-text { color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Quiz de HTML</h1>
+
+    <div id="quiz"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {q: "1. Qual elemento HTML é usado para representar o título principal de uma página?",
+       options: ["<title>", "<h1>", "<header>", "<head>"], answer: "<h1>"},
+      {q: "2. Qual tag é usada para representar um parágrafo em HTML?",
+       options: ["<p>", "<par>", "<text>", "<pre>"], answer: "<p>"},
+      {q: "3. O elemento <abbr> é utilizado para:",
+       options: ["Inserir links externos","Representar abreviações com significado","Adicionar texto em itálico","Nenhuma das anteriores"],
+       answer: "Representar abreviações com significado"},
+      {q: "4. Qual elemento representa o endereço de contato de uma pessoa ou empresa?",
+       options: ["<address>", "<footer>", "<div id='endereco'>", "<contact>"], answer: "<address>"},
+      {q: "5. Qual tag cria uma lista ordenada em HTML?",
+       options: ["<ul>", "<ol>", "<li>", "<list>"], answer: "<ol>"},
+      {q: "6. O atributo alt em imagens serve para:",
+       options: ["Definir a posição da imagem","Exibir uma legenda abaixo da imagem","Mostrar texto alternativo caso a imagem não carregue","Alinhar a imagem à esquerda ou direita"],
+       answer: "Mostrar texto alternativo caso a imagem não carregue"},
+      {q: "7. Qual a forma correta de criar um hiperlink absoluto para o site da W3C?",
+       options: ['<a>www.w3.org</a>','<a href="w3.org">W3C</a>','<a src="https://www.w3.org/">W3C</a>','<a href="https://www.w3.org/">W3C</a>'],
+       answer: '<a href="https://www.w3.org/">W3C</a>'},
+      {q: "8. Qual tag é usada para criar uma linha em uma tabela?",
+       options: ["<th>", "<td>", "<tr>", "<tlinha>"], answer: "<tr>"},
+      {q: "9. No HTML, <th> é utilizado para:",
+       options: ["Criar células de cabeçalho da tabela","Definir título da página","Inserir texto em negrito","Representar uma linha na tabela"],
+       answer: "Criar células de cabeçalho da tabela"},
+      {q: "10. Os elementos <p>, <h1>, <table> e <div> são exemplos de:",
+       options: ["Elementos de linha","Atributos globais","Elementos de bloco","Tags semânticas obrigatórias"],
+       answer: "Elementos de bloco"},
+      {q: "11. Os elementos <a>, <img> e <span> são exemplos de:",
+       options: ["Elementos de linha","Elementos de bloco","Estruturas de tabelas","Atributos obrigatórios"],
+       answer: "Elementos de linha"},
+      {q: "12. Qual é a função principal da tag <div>?",
+       options: ["Criar expressões matemáticas","Agrupar elementos em um container genérico de bloco","Representar abreviações","Criar listas numeradas"],
+       answer: "Agrupar elementos em um container genérico de bloco"},
+      {q: "13. Qual a diferença principal entre <div> e <span>?",
+       options: ["<div> é inline e <span> é bloco","<div> tem significado semântico e <span> não","<div> é de bloco e <span> é de linha","Não há diferença"],
+       answer: "<div> é de bloco e <span> é de linha"},
+      {q: "14. Qual elemento HTML é usado para inserir outro site ou conteúdo externo dentro de uma página?",
+       options: ["<video>","<embed>","<iframe>","<object>"], answer: "<iframe>"},
+      {q: "15. A tag <video> em HTML5 pode conter qual atributo para permitir controles?",
+       options: ["autoplay","controls","play","show"], answer: "controls"},
+      {q: "16. Qual atributo global cria um identificador único para o elemento?",
+       options: ["class","style","title","id"], answer: "id"},
+      {q: "17. Qual atributo global permite adicionar informação extra exibida ao passar o mouse sobre um elemento?",
+       options: ["data-*","lang","title","id"], answer: "title"},
+      {q: "18. Qual atributo global pode tornar o conteúdo de um elemento editável pelo usuário?",
+       options: ["data-*","contenteditable","style","class"], answer: "contenteditable"},
+      {q: "19. Sobre boas práticas de uso de imagens em HTML, é INCORRETO afirmar que:",
+       options: [
+         "Devemos evitar caminhos absolutos como c:/imagens/foto.jpg.",
+         "É recomendável usar nomes padronizados em minúsculo.",
+         "É correto usar imagens de alta resolução e reduzi-las com width e height.",
+         "O atributo alt deve ser usado para acessibilidade."
+       ],
+       answer: "É correto usar imagens de alta resolução e reduzi-las com width e height."}
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+
+    questions.forEach((q, index) => {
+      const qDiv = document.createElement("div");
+      qDiv.classList.add("question");
+
+      const questionText = document.createElement("p");
+      questionText.textContent = q.q;
+      qDiv.appendChild(questionText);
+
+      const answersDiv = document.createElement("div");
+      answersDiv.classList.add("answers");
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(btn, q.answer, qDiv);
+        answersDiv.appendChild(btn);
+      });
+
+      qDiv.appendChild(answersDiv);
+
+      const msg = document.createElement("p");
+      msg.classList.add("message");
+      qDiv.appendChild(msg);
+
+      quizContainer.appendChild(qDiv);
+    });
+
+    function checkAnswer(button, correctAnswer, qDiv) {
+      const buttons = qDiv.querySelectorAll("button");
+      buttons.forEach(b => b.disabled = true); // desativa depois de escolher
+
+      if (button.textContent === correctAnswer) {
+        button.classList.add("correct");
+        qDiv.querySelector(".message").textContent = "Resposta Correta!";
+        qDiv.querySelector(".message").classList.add("correct-text");
+      } else {
+        button.classList.add("wrong");
+        qDiv.querySelector(".message").textContent = "Resposta Errada!";
+        qDiv.querySelector(".message").classList.add("wrong-text");
+      }
+    }
+  </script>
+</body>
+</html>
